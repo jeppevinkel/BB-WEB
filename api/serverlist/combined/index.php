@@ -2,7 +2,7 @@
 date_default_timezone_set('CET');
 header('Content-Type: application/json');
 
-include '../../secrets/mysql-secrets.php';
+include '../../../secrets/mysql-secrets.php';
 
 $mysqli = new mysqli($db_servername, $db_username, $db_password, $db_dbname);
 
