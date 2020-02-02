@@ -4,21 +4,28 @@ header('Content-Type: application/json');
 
 $startTime = time();
 
+$debugCount = 1;
+
+echo $debugCount++;
+
 include '../' . __DIR__ . '/secrets/mysql-secrets.php';
 
 $mysqli = new mysqli($db_servername, $db_username, $db_password, $db_dbname);
+echo $debugCount++;
 
 /* check connection */
 if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
+echo $debugCount++;
 
 $servers = array();
 
 $query = $mysqli->prepare("SELECT * FROM servers");
 $query->execute();
 $result = $query->get_result();
+echo $debugCount++;
 
 while ($row = $result->fetch_assoc()) {
 	$server = array();
@@ -48,6 +55,7 @@ while ($row = $result->fetch_assoc()) {
 
 	array_push($servers, $server);
 }
+echo $debugCount++;
 
 ?>
 
@@ -67,6 +75,7 @@ while ($row = $result->fetch_assoc()) {
 	</div>
 	<div class="server-list">
 <?php
+echo $debugCount++;
 	for (int i = 0; count($servers); i++){
 		echo '<div class="server">';
 		echo '	<div class="server-info">';
@@ -81,6 +90,7 @@ while ($row = $result->fetch_assoc()) {
 		echo '		' . $servers[i]['ip'] . $servers[i]['port'];
 		echo '	</div>';
 	}
+echo $debugCount++;
 ?>
 	</div>
 	<div class="footer">
