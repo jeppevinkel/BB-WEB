@@ -1,10 +1,14 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 date_default_timezone_set('CET');
 header('Content-Type: application/json');
+$debugCount = 1;
+echo $debugCount++;
 
 $startTime = time();
 
-$debugCount = 1;
 
 echo $debugCount++;
 
