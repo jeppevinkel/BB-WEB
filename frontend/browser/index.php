@@ -2,34 +2,26 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 date_default_timezone_set('CET');
-header('Content-Type: application/json');
-$debugCount = 1;
-echo $debugCount++;
 
 $startTime = time();
 
-
-echo $debugCount++;
-
-include '../' . __DIR__ . '/secrets/mysql-secrets.php';
+include '../../secrets/mysql-secrets.php';
 
 $mysqli = new mysqli($db_servername, $db_username, $db_password, $db_dbname);
-echo $debugCount++;
 
 /* check connection */
 if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
-echo $debugCount++;
 
 $servers = array();
 
 $query = $mysqli->prepare("SELECT * FROM servers");
 $query->execute();
 $result = $query->get_result();
-echo $debugCount++;
 
 while ($row = $result->fetch_assoc()) {
 	$server = array();
@@ -59,7 +51,6 @@ while ($row = $result->fetch_assoc()) {
 
 	array_push($servers, $server);
 }
-echo $debugCount++;
 
 ?>
 
@@ -79,26 +70,25 @@ echo $debugCount++;
 	</div>
 	<div class="server-list">
 <?php
-echo $debugCount++;
-	for (int i = 0; count($servers); i++){
+	for ($i = 0; $i < count($servers); $i++){
 		echo '<div class="server">';
 		echo '	<div class="server-info">';
-		echo '		' . $servers[i]['players'] . ' <a href="https://pastebin.com/' . $servers[i]['pastebin'] . '">INFO</a>';
+		echo '		' . $servers[$i]['players'] . ' <a href="https://pastebin.com/' . $servers[$i]['pastebin'] . '">INFO</a>';
 		echo '	</div>';
 		echo '	<div class="server-name-container">';
 		echo '		<div class="server-name">';
-		echo '			' . base64_decode($servers[i]['info']);
+		echo '			' . base64_decode($servers[$i]['info']);
 		echo '		</div>';
 		echo '	</div>';
 		echo '	<div class="server-address">';
-		echo '		' . $servers[i]['ip'] . $servers[i]['port'];
+		echo '		' . $servers[$i]['ip'] . $servers[$i]['port'];
 		echo '	</div>';
+		echo '</div>';
 	}
-echo $debugCount++;
 ?>
 	</div>
 	<div class="footer">
-		Total Servers: <?php echo count($servers); ?> - Total Players: ?? - Total ServerMod Servers: ?? - SCP:SL Server Browser by Southwood - <a href="hhttps://southwoodstudios.com/browser
+		Total Servers: <?php echo count($servers); ?> - Total Players: ?? - Total ServerMod Servers: ?? - SCP:SL Server Browser by Southwood - <a href="https://southwoodstudios.com/browser
 /?table=y">View As Table</a> - Time to Sort: <?php echo time() - $startTime; ?> ms
 	</div>
 </body>
