@@ -1,0 +1,134 @@
+
+html, body {
+	color: white; 
+	background-image: radial-gradient(rgb(85, 124, 209), black); 
+	background-attachment: fixed;
+	overflow: hidden;
+}
+.projector
+{
+	top: 0;
+	left: 0;
+	position: fixed;
+	-webkit-box-shadow: inset 0 0 1000px 0px black;
+	box-shadow: inset 0 0 1000px 0px black;
+	width: 100%;
+	height: 100%;
+}
+a
+{
+	color: white;
+}
+table
+{
+	margin: 0 auto;
+}
+td, th 
+{
+  border: solid 2px white;
+}
+.header
+{
+	margin: 0 auto;
+	text-align: center;
+}
+.footer
+{
+
+	text-align: center;
+	position: fixed;
+	padding: 10px;
+	top: 105vh; 
+	margin-top: -100px;
+	width: 100%; height: 100px;
+}
+
+.logo
+{
+	display: block;
+	position: relative;
+	margin: 0 auto;
+}
+.server-list-table
+{
+	top: 50%;
+	left: 50%;
+	height: 70%;
+	min-width: 75%;
+	margin-top: 10px;
+	position: absolute;
+	overflow: auto;
+	overflow-x: hidden;
+	border-top: 5px solid white;
+	border-bottom: 5px solid white;
+	transform: translate(-50%, -50%);
+}
+.server-list
+{
+	top: 50%;
+	left: 50%;
+	height: 70%;
+	width: 910px;
+	margin-top: 10px;
+	position: absolute;
+	overflow: auto;
+	overflow-x: hidden;
+	border-top: 5px solid white;
+	border-bottom: 5px solid white;
+	transform: translate(-50%, -50%);
+}
+.server-list::-webkit-scrollbar { 
+    display: none; 
+}
+.server
+{
+	display: inline-block;
+	position: relative;
+	height: 85px;
+	width: 99%;
+	border: solid 3px white;
+	background-color:rgba(0, 0, 0, .5);
+	margin: 10px auto;
+	overflow: auto;
+}
+.server::-webkit-scrollbar 
+{ 
+    display: none; 
+}
+.server-name-container
+{
+	height: 85%;
+	display: flex;
+	align-items: center; 
+	margin: 5px;
+}
+.server-name
+{
+	display: inline-block;
+	width: 90%;
+	font-size: 25px;
+	overflow: auto;
+
+}
+.server-info
+{
+	position: -webkit-sticky; /* Safari */
+	position: absolute;
+	display: inline-block;
+	float: right;
+	vertical-align: top;
+	margin: 2px;
+	right: 5px;
+	top: 5px;
+}
+.server-address
+{
+	position: -webkit-sticky; /* Safari */
+	position: absolute;
+	display: inline-block;
+	float: right;
+	vertical-align: bottom;
+	margin: 2px;
+	right: 5px;
+	bottom: 5px;
+}
