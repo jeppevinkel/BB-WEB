@@ -14,7 +14,7 @@ if (mysqli_connect_errno()) {
 
 $servers = array();
 
-$query = $mysqli->prepare("SELECT * FROM servers");
+$query = $mysqli->prepare("SELECT * FROM servers WHERE last_request >= NOW() - INTERVAL 2 MINUTE");
 $query->execute();
 $result = $query->get_result();
 
@@ -34,13 +34,11 @@ while ($row = $result->fetch_assoc()) {
 	$server['friendlyFire'] = $row['friendly_fire'];
 	$server['modded'] = $row['modded'];
 	$server['whitelist'] = $row['whitelist'];
-	$server['official'] = "REGIONAL OFFICIAL";
+	$server['official'] = "GLOBAL OFFICIAL";
 	$server['staffRA'] = $row['staff_ra'];
 	$server['geoblocking'] = $row['geoblocking'];
 	$server['accessRestrictions'] = $row['access_restrictions'];
 	$server['emailSet'] = $row['email_set'];
-	$server['enforceSameIp'] = $row['enforce_same_ip'];
-	$server['enforceSameAsn'] = $row['enforce_same_asn'];
 	$server['playerlist'] = $row['playerlist'];
 	$server['lastUpdate'] = $row['last_request'];
 
@@ -54,9 +52,6 @@ $jsonOut = json_encode($servers);
 if ($_GET['format'] == "json-signed-unix" && $_GET['version'] == 2 && $_GET['minimal'] == 1) {
 	$arr = array();
 
-	//array_push($arr, base64_encode($jsonOut));
-	//array_push($arr, time());
-	//array_push($arr, var)
 	$arr['payload'] = base64_encode($jsonOut);
 	$arr['timestamp'] = time();
 	$arr['signature'] = "MIGIAkIB1gRUBp8cl+ND5jpc1rirtgDUAClrpN4RhE7xapzaeluW4r+DyY0hgzB3Pg5dJe6KCnB03YT+8OFuWqClsO4Ps2cCQgF61OrfJeo7CA1uvGAPOs/i4srj/py6nb5CO7S3flD3KRi80FSCI8CHSTc+gKiQvcS5EVP0JG43Np9awvww3ovGmg==";

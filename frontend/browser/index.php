@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 date_default_timezone_set('CET');
 
-$startTime = time();
+$startTime = microtime(true) * 1000;
 
 include '../../secrets/mysql-secrets.php';
 
@@ -19,7 +19,7 @@ if (mysqli_connect_errno()) {
 
 $servers = array();
 
-$query = $mysqli->prepare("SELECT * FROM servers");
+$query = $mysqli->prepare("SELECT * FROM servers WHERE last_request >= NOW() - INTERVAL 2 MINUTE");
 $query->execute();
 $result = $query->get_result();
 
@@ -70,19 +70,24 @@ while ($row = $result->fetch_assoc()) {
 	</div>
 	<div class="server-list">
 <?php
+$exiledCount = 0;
 if (isset($servers)) {
 	for ($i = 0; $i < count($servers); $i++){
+		$serverName = ConvertUnityText(base64_decode($servers[$i]['info']));
+		if (strpos($serverName, 'EXILED') !== false) {
+			$exiledCount++;
+		}
 		echo '<div class="server">';
 		echo '	<div class="server-info">';
 		echo '		' . $servers[$i]['players'] . ' <a href="https://pastebin.com/' . $servers[$i]['pastebin'] . '">INFO</a>';
 		echo '	</div>';
 		echo '	<div class="server-name-container">';
 		echo '		<div class="server-name">';
-		echo '			' . ConvertUnityText(base64_decode($servers[$i]['info']));
+		echo '			' . $serverName;
 		echo '		</div>';
 		echo '	</div>';
 		echo '	<div class="server-address">';
-		echo '		' . $servers[$i]['ip'] . $servers[$i]['port'];
+		echo '		' . $servers[$i]['ip'] . ':' . $servers[$i]['port'];
 		echo '	</div>';
 		echo '</div>';
 	}
@@ -90,7 +95,7 @@ if (isset($servers)) {
 ?>
 	</div>
 	<div class="footer">
-		Total Servers: <?php echo count($servers); ?> - Total Players: ?? - Total ServerMod Servers: ?? - SCP:SL Server Browser by Southwood - <a href="https://southwoodstudios.com/browser/?table=y">View As Table</a> - Time to Sort: <?php echo time() - $startTime; ?> ms
+		Total Servers: <?php echo count($servers); ?> - Total Players: ?? - Total EXILED Servers: <?php echo $exiledCount; ?> - SCP:SL Server Browser by Southwood - <a href="https://southwoodstudios.com/browser/?table=y">View As Table</a> - Time to Sort: <?php echo round((microtime(true) * 1000) - $startTime, 2); ?> ms
 	</div>
 </body>
 </body>
@@ -101,7 +106,10 @@ if (isset($servers)) {
 function ConvertUnityText($str){
 	$newstr = preg_replace('/<color=(.*?)>(.*?)<\/color>/','<span style="color:$1;">$2</span>',$str);
 
-	$newstr = preg_replace('/<size=(.*?)>(.*?)<\/size>/','<span id="unity-size" style="font-size:$1px;">$2</span>',$newstr);
+	$newstr = preg_replace_callback('/<size=(.*?)>(.*?)<\/size>/', function($m){
+		$out = '<span id="unity-size" style="font-size:' . floatval($m[1])*2.8 . '%;">' . $m[2] . '</span>';
+		return $out;
+	}, $newstr);
 
 	return $newstr;
 }
