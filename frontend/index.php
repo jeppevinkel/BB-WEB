@@ -1,5 +1,8 @@
 <!doctype html>
 <title>Southwood Studios</title>
+
+<link rel="icon" href="/images/logo.png">
+
 <style>
   body { text-align: center; padding: 150px; }
   h1 { font-size: 50px; }
