@@ -78,7 +78,7 @@ if (isset($servers)) {
 		echo '	</div>';
 		echo '	<div class="server-name-container">';
 		echo '		<div class="server-name">';
-		echo '			' . base64_decode($servers[$i]['info']);
+		echo '			' . ConvertUnityText(base64_decode($servers[$i]['info']));
 		echo '		</div>';
 		echo '	</div>';
 		echo '	<div class="server-address">';
@@ -95,3 +95,15 @@ if (isset($servers)) {
 </body>
 </body>
 </html>
+
+<?php
+
+function ConvertUnityText($str){
+	$newstr = preg_replace('/<color=(.*?)>(.*?)<\/color>/','<span style="color:$1;">$2</span>',$str);
+
+	$newstr = preg_replace('/<size=(.*?)>(.*?)<\/size>/','<span id="unity-size" style="font-size:$1px;">$2</span>',$newstr);
+
+	return $newstr;
+}
+
+?>
