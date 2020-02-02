@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
     <title>Southwood - Error</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/error.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="/css/error.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link rel="icon" href="/images/southwoodlogo.png">
 </head>
 <body>
 <div id="errorbox">
     <div id="cnt">
         <div class="logo">
-            <img src="../images/southwoodlogo.png" height="256" width="256">
+            <img src="/images/southwoodlogo.png" height="256" width="256">
         </div>
         <div class="content">
             <h1>API Interface</h1><br>
