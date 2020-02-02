@@ -70,6 +70,7 @@ while ($row = $result->fetch_assoc()) {
 	</div>
 	<div class="server-list">
 <?php
+if (isset($servers)) {
 	for ($i = 0; $i < count($servers); $i++){
 		echo '<div class="server">';
 		echo '	<div class="server-info">';
@@ -85,11 +86,11 @@ while ($row = $result->fetch_assoc()) {
 		echo '	</div>';
 		echo '</div>';
 	}
+}
 ?>
 	</div>
 	<div class="footer">
-		Total Servers: <?php echo count($servers); ?> - Total Players: ?? - Total ServerMod Servers: ?? - SCP:SL Server Browser by Southwood - <a href="https://southwoodstudios.com/browser
-/?table=y">View As Table</a> - Time to Sort: <?php echo time() - $startTime; ?> ms
+		Total Servers: <?php echo count($servers); ?> - Total Players: ?? - Total ServerMod Servers: ?? - SCP:SL Server Browser by Southwood - <a href="https://southwoodstudios.com/browser/?table=y">View As Table</a> - Time to Sort: <?php echo time() - $startTime; ?> ms
 	</div>
 </body>
 </body>
