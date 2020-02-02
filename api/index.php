@@ -6,7 +6,7 @@
     <title>Southwood - Error</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/error.css" type="text/css" rel="stylesheet" media="screen,projection">
-    <link rel="icon" href="/images/southwoodlogo.png">
+    <link rel="icon" href="/images/logo.ico">
 </head>
 <body>
 <div id="errorbox">
