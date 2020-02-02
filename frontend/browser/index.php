@@ -104,7 +104,9 @@ if (isset($servers)) {
 <?php
 
 function ConvertUnityText($str){
-	$newstr = preg_replace('/<color=(.*?)>(.*?)<\/color>/','<span style="color:$1;">$2</span>',$str);
+	$newstr = preg_replace_callback('/<color=(.*?)>(.*?)<\/color>/', function($m){
+		return '<span style="color:' . hex2rgba($m[1]) . ';color:' . hex2rgba($m[1], true) . ';">' . $m[2] . '</span>';
+	},$str);
 
 	$newstr = preg_replace_callback('/<size=(.*?)>(.*?)<\/size>/', function($m){
 		$out = '<span id="unity-size" style="font-size:' . floatval($m[1])*2.8 . '%;">' . $m[2] . '</span>';
@@ -112,6 +114,68 @@ function ConvertUnityText($str){
 	}, $newstr);
 
 	return $newstr;
+}
+
+function hex2rgba($color, $alpha = false) {
+
+	$default = 'rgb(255,255,255)';
+ 
+	//Return default if no color provided
+	if(empty($color))
+          return $default; 
+ 
+        if ($color[0] == '#' ) {
+        	$color = substr( $color, 1 );
+        } else {
+        	return $color;
+        }
+        $a = "ff";
+ 		
+ 		switch (strlen($color)) {
+ 			case '8':
+ 				$hex = array( $color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5] );
+ 				$a = $color[6] . $color[7];
+ 				break;
+ 			case '6':
+ 				$hex = array( $color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5] );
+ 				break;
+ 			case '4':
+ 				$hex = array( $color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2] );
+ 				$a = $color[3] . $color[3];
+ 				break;
+ 			case '3':
+ 				$hex = array( $color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2] );
+ 				break;
+ 			default:
+ 				return $default;
+ 				break;
+ 		}
+ 
+        //Convert hexadec to rgb
+        $rgb =  array_map('hexdec', $hex);
+ 
+        //Check if opacity is set(rgba or rgb)
+        if($alpha){
+        	$output = 'rgba('.implode(",",$rgb).','.map(hexdec($a), 0, 255, 0.0, 1.0).')';
+        } else {
+        	$output = 'rgb('.implode(",",$rgb).')';
+        }
+ 
+        //Return rgb(a) color string
+        return $output;
+}
+
+function map($value, $fromLow, $fromHigh, $toLow, $toHigh) {
+    $fromRange = $fromHigh - $fromLow;
+    $toRange = $toHigh - $toLow;
+    $scaleFactor = $toRange / $fromRange;
+
+    // Re-zero the value within the from range
+    $tmpValue = $value - $fromLow;
+    // Rescale the value to the to range
+    $tmpValue *= $scaleFactor;
+    // Re-zero back to the to range
+    return $tmpValue + $toLow;
 }
 
 ?>
