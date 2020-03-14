@@ -7,7 +7,12 @@ date_default_timezone_set('CET');
 
 $startTime = microtime(true) * 1000;
 
+require '../../vendor/autoload.php';
+
 include '../../secrets/mysql-secrets.php';
+
+use \Phlib\XssSanitizer\Sanitizer;
+$sanitizer = new Sanitizer();
 
 $mysqli = new mysqli($db_servername, $db_username, $db_password, $db_dbname);
 
@@ -19,7 +24,7 @@ if (mysqli_connect_errno()) {
 
 $servers = array();
 
-$query = $mysqli->prepare("SELECT * FROM servers WHERE last_request >= NOW() - INTERVAL 2 MINUTE");
+$query = $mysqli->prepare("SELECT * FROM servers WHERE last_request >= NOW() - INTERVAL 2 MINUTE ORDER BY players DESC, address DESC, connection_port ASC");
 $query->execute();
 $result = $query->get_result();
 
@@ -70,6 +75,7 @@ while ($row = $result->fetch_assoc()) {
 	</div>
 	<div class="server-list">
 <?php
+$totalPlayers = 0;
 $exiledCount = 0;
 if (isset($servers)) {
 	for ($i = 0; $i < count($servers); $i++){
@@ -79,7 +85,7 @@ if (isset($servers)) {
 		}
 		echo '<div class="server">';
 		echo '	<div class="server-info">';
-		echo '		' . $servers[$i]['players'] . ' <a href="https://pastebin.com/' . $servers[$i]['pastebin'] . '">INFO</a>';
+		echo '		' . (new Sanitizer())->sanitize($servers[$i]['players']) . ' <a href="https://pastebin.com/' . (new Sanitizer())->sanitize($servers[$i]['pastebin']) . '">INFO</a>';
 		echo '	</div>';
 		echo '	<div class="server-name-container">';
 		echo '		<div class="server-name">';
@@ -90,12 +96,13 @@ if (isset($servers)) {
 		echo '		' . $servers[$i]['ip'] . ':' . $servers[$i]['port'];
 		echo '	</div>';
 		echo '</div>';
+		$totalPlayers += intval(explode('/', $servers[$i]['players'])[0]);
 	}
 }
 ?>
 	</div>
 	<div class="footer">
-		Total Servers: <?php echo count($servers); ?> - Total Players: ?? - Total EXILED Servers: <?php echo $exiledCount; ?> - SCP:SL Server Browser by Southwood - <a href="https://southwoodstudios.com/browser/?table=y">View As Table</a> - Time to Sort: <?php echo round((microtime(true) * 1000) - $startTime, 2); ?> ms
+		Total Servers: <?php echo count($servers); ?> - Total Players: <?php echo $totalPlayers; ?> - Total EXILED Servers: <?php echo $exiledCount; ?> - SCP:SL Server Browser by Southwood <!-- - <a href="https://southwoodstudios.com/browser/?table=y">View As Table</a>  -->- Time to Sort: <?php echo round((microtime(true) * 1000) - $startTime, 2); ?> ms
 	</div>
 </body>
 </body>
@@ -112,7 +119,8 @@ function ConvertUnityText($str){
 		$out = '<span id="unity-size" style="font-size:' . floatval($m[1])*2.8 . '%;">' . $m[2] . '</span>';
 		return $out;
 	}, $newstr);
-
+	// $newstr = $sanitizer->sanitize($newstr);
+	$newstr = (new Sanitizer())->sanitize($newstr);
 	return $newstr;
 }
 

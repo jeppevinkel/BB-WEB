@@ -1,37 +1,22 @@
-#errorbox {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    width: 700px;
-    transform: translateX(-50%);
-}
-
-#cnt {
-    position: relative;
-}
-
-.logo {
-    position: absolute;
-    height: 100%;
-    width: 40%;
-    left: 0%;
-}
-
 .content {
     position: absolute;
     padding: 7% 0;
-    top: 50%;
+    top: 20%;
     width: 50%;
-    right: 0%;
+    right: 15%;
+}
+
+.index-list {
+    width: 15%;
 }
 
 #footer {
-    background-color: teal;
+    background-color: rgb(25, 25, 25);
     color: white;
     height: 25px;
     line-height: 25px;
 }
 
-#copyright {
+#requestFrom {
     text-align: right;
 }

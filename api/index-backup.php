@@ -9,19 +9,15 @@
     <link rel="icon" href="/images/logo.ico">
 </head>
 <body>
-<div id="errorbox">
-    <div id="cnt">
-        <div class="logo">
-            <img src="/images/southwoodlogo.png" height="256" width="256">
-        </div>
-        <div class="content">
-            <h1>API Interface</h1><br>
-            Welcome to Southwood Studio's API interface.
-        </div>
+<div class="content">
+    <h1>API Interface</h1><br>
+    Welcome to Southwood Studio's API interface.<br>
+    <div class="list-group index-list">
+        <a class="list-group-item list-group-item-action" role="button" href="/serverlist">Serverlist</a>
     </div>
 </div>
 
 <div id ="footer" class="row navbar-fixed-bottom">
-    <div class="col-md-11" id="copyright">Requested by <?php echo $_SERVER["HTTP_CF_CONNECTING_IP"]; ?></div>
+    <div class="col-md-11" id="requestFrom">Requested by <?php echo $_SERVER["HTTP_CF_CONNECTING_IP"]; ?></div>
 </div>
 </body>

@@ -14,7 +14,7 @@ if (mysqli_connect_errno()) {
 
 $servers = array();
 
-$query = $mysqli->prepare("SELECT * FROM servers WHERE last_request >= NOW() - INTERVAL 360 MINUTE");
+$query = $mysqli->prepare("SELECT * FROM servers WHERE last_request >= NOW() - INTERVAL 2 MINUTE");
 $query->execute();
 $result = $query->get_result();
 
@@ -30,15 +30,15 @@ while ($row = $result->fetch_assoc()) {
 	$server['info'] = $row['info'];
 	$server['pastebin'] = $row['pastebin'];
 	$server['version'] = $row['server_version'];
-	$server['privateBeta'] = $row['private_beta'];
-	$server['friendlyFire'] = $row['friendly_fire'];
-	$server['modded'] = $row['modded'];
-	$server['whitelist'] = $row['whitelist'];
+	$server['privateBeta'] = (bool)$row['private_beta'];
+	$server['friendlyFire'] = (bool)$row['friendly_fire'];
+	$server['modded'] = (bool)$row['modded'];
+	$server['whitelist'] = (bool)$row['whitelist'];
 	$server['official'] = "GLOBAL OFFICIAL";
-	$server['staffRA'] = $row['staff_ra'];
-	$server['geoblocking'] = $row['geoblocking'];
-	$server['accessRestrictions'] = $row['access_restrictions'];
-	$server['emailSet'] = $row['email_set'];
+	$server['staffRA'] = (bool)$row['staff_ra'];
+	$server['geoblocking'] = (bool)$row['geoblocking'];
+	$server['accessRestrictions'] = (bool)$row['access_restrictions'];
+	$server['emailSet'] = (bool)$row['email_set'];
 	$server['playerlist'] = $row['playerlist'];
 	$server['lastUpdate'] = $row['last_request'];
 
@@ -46,8 +46,9 @@ while ($row = $result->fetch_assoc()) {
 }
 
 //var_dump($servers);
+$serversAssociative = array('servers' => $servers);
 
-$jsonOut = json_encode($servers);
+$jsonOut = json_encode($serversAssociative);
 
 if ($_GET['format'] == "json-signed-unix" && $_GET['version'] == 2 && $_GET['minimal'] == 1) {
 	$arr = array();
